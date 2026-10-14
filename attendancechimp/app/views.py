@@ -37,6 +37,12 @@ def time_view(request):
     current_time = datetime.now(CDT).strftime('%R')
     return HttpResponse(current_time)
 
+def sum_view(request):
+    my_sum = float(request.GET["n1"]) + float(request.GET["n2"])
+    response = HttpResponse()
+    response.write("<p>"+str(my_sum)+"</p>")
+    return HttpResponse(response)
+
 # ---------------------------------------------------------------------------
 # HW4  — user creation
 # ---------------------------------------------------------------------------
