@@ -33,7 +33,9 @@ def index(request):
     context = {}
     return render(request, 'app/index.html', context)
 
-
+def time_view(request):
+    current_time = datetime.now(CDT).strftime('%R')
+    return HttpResponse(current_time)
 
 # ---------------------------------------------------------------------------
 # HW4  — user creation
