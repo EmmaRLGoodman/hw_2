@@ -32,18 +32,14 @@ logger = logging.getLogger(__name__) # set up tracking, auditing, and debugging
 # User profiles
 # ---------------------------------------------------------------------------
 class InstructorProfile(models.Model):
-    """Holds instructors, which have an ID, a first name, last name, and email"""
+    """Holds instructors, which have an ID and a user account for their other info"""
     Instructor_ID = models.IntegerField(primary_key=True)
-    FirstName = models.CharField(max_length=35)
-    LastName = models.CharField(max_length=35)
-    Email = models.CharField(max_length=50)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 class StudentProfile(models.Model):
-    """Holds students, which have an ID, a first name, last name, and email"""
+    """Holds students, which have an ID and a user account for their other info"""
     Student_ID = models.IntegerField(primary_key=True)
-    FirstName = models.CharField(max_length=35)
-    LastName = models.CharField(max_length=35)
-    Email = models.CharField(max_length=50)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
 # ---------------------------------------------------------------------------
@@ -90,6 +86,8 @@ class QRCodeUpload(models.Model):
     for a student to upload a QR code even if it is not recognized to be an 
     existing lecture."""
     Upload_ID = models.IntegerField(primary_key=True)
+    Image = models.ImageField()
+    Timestamp = models.DateTimeField(auto_now_add=True)
     Student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
     Lecture = models.ForeignKey(Lecture, on_delete = models.SET_NULL, blank=True, null=True)
 
