@@ -1,0 +1,6 @@
+HW 3:
+Used AI to generate an example of a composite primary key coming from tables that have explicit primary
+keys, as the documentation seemed to only have ones with implicit primary keys and I wanted a sanity check
+on syntax
+(Also used an LLM for the part of the assignment where we're told to use an LLM, but that does not strike
+me as being terribly surprising)

@@ -1,0 +1,5 @@
+The ChatGPT models is more complete (and also less simple) - it has a number of fields mine doesn't, such as creation timestamps for
+enrollment and courses, and gives the classes helper functions, which I did not do. It also uses something called a "UUID" field
+for the QR code, which is not a thing I really knew existed, but is probably more correct for using a QR code than what I did. I would 
+say that my version of models is perhaps easier to implement due to its simpler nature, though I imagine the more extensive docstrings
+of the ChatGPT model would help out when it comes to implementing it.

@@ -31,35 +31,67 @@ logger = logging.getLogger(__name__) # set up tracking, auditing, and debugging
 # ---------------------------------------------------------------------------
 # User profiles
 # ---------------------------------------------------------------------------
+class InstructorProfile(models.Model):
+    """Holds instructors, which have an ID, a first name, last name, and email"""
+    Instructor_ID = models.IntegerField(primary_key=True)
+    FirstName = models.CharField(max_length=35)
+    LastName = models.CharField(max_length=35)
+    Email = models.CharField(max_length=50)
 
-
+class StudentProfile(models.Model):
+    """Holds students, which have an ID, a first name, last name, and email"""
+    Student_ID = models.IntegerField(primary_key=True)
+    FirstName = models.CharField(max_length=35)
+    LastName = models.CharField(max_length=35)
+    Email = models.CharField(max_length=50)
 
 
 # ---------------------------------------------------------------------------
 # Course
 # ---------------------------------------------------------------------------
-
-
-
+class Course(models.Model):
+    """Holds courses, which are linked to an instructor that teaches them.
+    Nulls rather than cascades on instructor delete to account for, say,
+    knowing a course will be held, the original instructor is unable to teach it,
+    but the university does not yet know who will be teaching in their place."""
+    Course_ID = models.IntegerField(primary_key=True)
+    Name = models.CharField(max_length=70)
+    Instructor = models.ForeignKey(InstructorProfile, on_delete=models.SET_NULL,
+                                   null=True)
+    Schedule = models.CharField(max_length=120)
 
 # ---------------------------------------------------------------------------
 # Enrollment
 # ---------------------------------------------------------------------------
-
-
-
+class Enrollment(models.Model):
+    """Holds enrollment, which allows for the many-to-many relationship between
+    students and classes (many students in one class, each student takes many
+    classes) and uses a composite primary key."""
+    Student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
+    Course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    pk = models.CompositePrimaryKey("Student_id", "Course_id")
 
 # ---------------------------------------------------------------------------
 # Lecture
 # ---------------------------------------------------------------------------
-
-
+class Lecture(models.Model):
+    """Holds lectures, which have an ID, a course they are a lecture for,
+    and a date they happen on"""
+    QR_ID = models.IntegerField(primary_key=True)
+    Course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    Date = models.DateField()
 
 
 # ---------------------------------------------------------------------------
 # QR Code Upload
 # ---------------------------------------------------------------------------
-
+class QRCodeUpload(models.Model):
+    """Holds QR codes uploaded by students - the lecture can be blank, allowing
+    for a student to upload a QR code even if it is not recognized to be an 
+    existing lecture."""
+    Upload_ID = models.IntegerField(primary_key=True)
+    Student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
+    Lecture = models.ForeignKey(Lecture, on_delete = models.SET_NULL, blank=True, null=True)
 
 
 
